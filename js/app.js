@@ -1,6 +1,6 @@
 'use script';
 
-// *Global Variables*
+// *Global Variables* - Number of rounds and overall array
 let selectionRounds = 25;
 let busMallArray = [];
 
@@ -25,7 +25,7 @@ function BusMall(productName, fileExtension = 'jpg') {
   busMallArray.push(this);
 }
 
-// BusMall products
+// Bus Mall products
 
 new BusMall('bag');
 new BusMall('banana');
@@ -46,14 +46,14 @@ new BusMall('unicorn');
 new BusMall('water-can');
 new BusMall('wine-glass');
 
-console.log(busMallArray);
+// console.log(busMallArray);
 
 
 
-// *Helper Functions*
+// *Helper Functions* - Randomizer, render 3 random images to page (don't duplicate in a round)
 
 function getRandomIndex() {
-  return Math.floor(Math.random() * busMallArray.length);
+  return Math.floor(Math.random()*busMallArray.length);
 }
 
 function renderImages() {
@@ -67,16 +67,16 @@ function renderImages() {
     productTwoIndex = getRandomIndex();
   }
 
-  imageA.src = busMallArray[productOneIndex].img;
+  imageA.src = busMallArray[productOneIndex].productImage;
   imageA.alt = busMallArray[productOneIndex].productName;
   busMallArray[productOneIndex].view++;
 
-  imageB.src = busMallArray[productTwoIndex].img;
+  imageB.src = busMallArray[productTwoIndex].productImage;
   imageB.alt = busMallArray[productTwoIndex].productName;
   busMallArray[productTwoIndex].view++;
 
 
-  imageC.src = busMallArray[productThreeIndex].img;
+  imageC.src = busMallArray[productThreeIndex].productImage;
   imageC.alt = busMallArray[productThreeIndex].productName;
   busMallArray[productThreeIndex].view++;
 
@@ -89,7 +89,7 @@ renderImages();
 function handleClick(event) {
   let imageClicked = event.target.alt;
 
-  console.log('image clicked', imageClicked);
+  // console.log('image clicked', imageClicked);
 
   for (let j = 0; j < busMallArray.length; j++) {
     if (imageClicked === busMallArray[j].productName) {
@@ -110,15 +110,14 @@ function handleClick(event) {
 function handleResults() {
   if (selectionRounds === 0) {
     for (let k = 0; k < busMallArray.length; k++) {
+      let percentageViewed = Math.round((busMallArray[k].click / busMallArray[k].view)*100);
       let li = document.createElement('li');
       results.appendChild(li);
-      li.textContent = 'TEST TEST Fill';
+      li.textContent = `${busMallArray[k].productName}: ${busMallArray[k].view} views, ${busMallArray[k].click} votes (~${percentageViewed}%)`;
     }
   }
 }
 
-// *Event Listeners*
+// *Event Listeners* - image click and review results
 imageContainer.addEventListener('click', handleClick);
 btn.addEventListener('click', handleResults);
-
-
