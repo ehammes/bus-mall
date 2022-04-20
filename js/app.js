@@ -16,8 +16,17 @@ let imageC = document.getElementById('img-c');
 // let btn = document.getElementById('btn');
 
 // Canvas Chart.js Code
-
 const ctx = document.getElementById('myChart');
+
+
+// Get data from local storage
+let retrievedProducts = localStorage.getItem('storedProducts');
+console.log('retrieved products here', retrievedProducts);
+
+// Parse data retrieved from local storage
+let parsedProducts = JSON.parse(retrievedProducts);
+console.log('parsed products here', parsedProducts);
+
 
 
 // *Constructor Function*
@@ -32,28 +41,31 @@ function BusMall(productName, fileExtension = 'jpg') {
 }
 
 // Bus Mall products
+if (retrievedProducts){
+  busMallArray = parsedProducts;
+} else {
+  new BusMall('bag');
+  new BusMall('banana');
+  new BusMall('bathroom');
+  new BusMall('boots');
+  new BusMall('breakfast');
+  new BusMall('bubblegum');
+  new BusMall('chair');
+  new BusMall('cthulhu');
+  new BusMall('dog-duck');
+  new BusMall('dragon');
+  new BusMall('pen');
+  new BusMall('pet-sweep');
+  new BusMall('scissors');
+  new BusMall('shark');
+  new BusMall('sweep', 'png');
+  new BusMall('tauntaun');
+  new BusMall('unicorn');
+  new BusMall('water-can');
+  new BusMall('wine-glass');
+}
 
-new BusMall('bag');
-new BusMall('banana');
-new BusMall('bathroom');
-new BusMall('boots');
-new BusMall('breakfast');
-new BusMall('bubblegum');
-new BusMall('chair');
-new BusMall('cthulhu');
-new BusMall('dog-duck');
-new BusMall('dragon');
-new BusMall('pen');
-new BusMall('pet-sweep');
-new BusMall('scissors');
-new BusMall('shark');
-new BusMall('sweep', 'png');
-new BusMall('tauntaun');
-new BusMall('unicorn');
-new BusMall('water-can');
-new BusMall('wine-glass');
-
-// console.log(busMallArray);
+console.log(busMallArray);
 
 
 
@@ -123,10 +135,18 @@ function handleClick(event) {
 
     //render chart
     renderChart();
+
+
+    // ****Local Storage
+    // Stringify data
+    let stringifiedProducts = JSON.stringify(busMallArray);
+    console.log('stringified products here', stringifiedProducts);
+
+    // Store data
+    localStorage.setItem('storedProducts', stringifiedProducts);
   }
 
   renderImages();
-
 }
 
 function renderChart() {
@@ -176,7 +196,7 @@ function renderChart() {
       }
     }
   };
-
+  ctx.style.display = 'block';
   new Chart(ctx, myChartObj);
 }
 
