@@ -12,8 +12,8 @@ let imageA = document.getElementById('img-a');
 let imageB = document.getElementById('img-b');
 let imageC = document.getElementById('img-c');
 
-let results = document.getElementById('results');
-let btn = document.getElementById('btn');
+// let results = document.getElementById('results');
+// let btn = document.getElementById('btn');
 
 // Canvas Chart.js Code
 
