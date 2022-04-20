@@ -3,6 +3,7 @@
 // *Global Variables* - Number of rounds and overall array
 let selectionRounds = 25;
 let busMallArray = [];
+let imageCountRounds = 6;
 
 // *DOM References*
 
@@ -13,6 +14,11 @@ let imageC = document.getElementById('img-c');
 
 let results = document.getElementById('results');
 let btn = document.getElementById('btn');
+
+// Canvas Chart.js Code
+
+const ctx = document.getElementById('myChart');
+
 
 // *Constructor Function*
 
@@ -53,32 +59,44 @@ new BusMall('wine-glass');
 // *Helper Functions* - Randomizer, render 3 random images to page (don't duplicate in a round)
 
 function getRandomIndex() {
-  return Math.floor(Math.random()*busMallArray.length);
+  return Math.floor(Math.random() * busMallArray.length);
 }
+//Reworked render function based on 4.19 demo
+let renderArray = [];
 
 function renderImages() {
 
-  let productOneIndex = getRandomIndex();
-  let productTwoIndex = getRandomIndex();
-  let productThreeIndex = getRandomIndex();
-  //validation **Help from Katharine
-  while (productOneIndex === productTwoIndex || productOneIndex === productThreeIndex || productTwoIndex === productThreeIndex) {
-    productOneIndex = getRandomIndex();
-    productTwoIndex = getRandomIndex();
+  while (renderArray.length < imageCountRounds) {
+    let randomNumber = getRandomIndex();
+    if (!renderArray.includes(randomNumber)) {
+      renderArray.push(randomNumber);
+    }
   }
+  // let productOneIndex = getRandomIndex();
+  // let productTwoIndex = getRandomIndex();
+  // let productThreeIndex = getRandomIndex();
+  // //validation **Help from Katharine
+  // while (productOneIndex === productTwoIndex || productOneIndex === productThreeIndex || productTwoIndex === productThreeIndex) {
+  //   productOneIndex = getRandomIndex();
+  //   productTwoIndex = getRandomIndex();
+  // }
 
-  imageA.src = busMallArray[productOneIndex].productImage;
-  imageA.alt = busMallArray[productOneIndex].productName;
-  busMallArray[productOneIndex].view++;
+  let productOneInstance = renderArray.shift();
+  let productTwoInstance = renderArray.shift();
+  let productThreeInstance = renderArray.shift();
 
-  imageB.src = busMallArray[productTwoIndex].productImage;
-  imageB.alt = busMallArray[productTwoIndex].productName;
-  busMallArray[productTwoIndex].view++;
+  imageA.src = busMallArray[productOneInstance].productImage;
+  imageA.alt = busMallArray[productOneInstance].productName;
+  busMallArray[productOneInstance].view++;
+
+  imageB.src = busMallArray[productTwoInstance].productImage;
+  imageB.alt = busMallArray[productTwoInstance].productName;
+  busMallArray[productTwoInstance].view++;
 
 
-  imageC.src = busMallArray[productThreeIndex].productImage;
-  imageC.alt = busMallArray[productThreeIndex].productName;
-  busMallArray[productThreeIndex].view++;
+  imageC.src = busMallArray[productThreeInstance].productImage;
+  imageC.alt = busMallArray[productThreeInstance].productName;
+  busMallArray[productThreeInstance].view++;
 
 }
 
@@ -101,23 +119,78 @@ function handleClick(event) {
 
   if (selectionRounds === 0) {
     imageContainer.removeEventListener('click', handleClick);
+
+    //render chart
+    renderChart();
   }
 
   renderImages();
 
 }
 
-function handleResults() {
-  if (selectionRounds === 0) {
-    for (let k = 0; k < busMallArray.length; k++) {
-      let percentageViewed = Math.round((busMallArray[k].click / busMallArray[k].view)*100);
-      let li = document.createElement('li');
-      results.appendChild(li);
-      li.textContent = `${busMallArray[k].productName}: ${busMallArray[k].view} views, ${busMallArray[k].click} votes (~${percentageViewed}%)`;
-    }
+function renderChart() {
+  let productNames = [];
+  let productViews = [];
+  let productVotes = [];
+
+  for (let i = 0; i < busMallArray.length; i++) {
+    productNames.push(busMallArray[i].productName);
+    productViews.push(busMallArray[i].view);
+    productVotes.push(busMallArray[i].click);
   }
+
+
+  let myChartObj = {
+    type: 'bar',
+    data: {
+      labels: productNames, // product names
+      datasets: [{
+        label: '# of Views',
+        data: productViews, // views data
+        backgroundColor: [
+          'blue'
+        ],
+        borderColor: [
+          'blue'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: '# of Votes',
+        data: productVotes, // votes data
+        backgroundColor: [
+          'green'
+        ],
+        borderColor: [
+          'green'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  new Chart(ctx, myChartObj);
 }
+
+// function handleResults() {
+//   if (selectionRounds === 0) {
+//     for (let k = 0; k < busMallArray.length; k++) {
+//       let percentageViewed = Math.round((busMallArray[k].click / busMallArray[k].view) * 100);
+//       let li = document.createElement('li');
+//       results.appendChild(li);
+//       li.textContent = `${busMallArray[k].productName}: ${busMallArray[k].view} views, ${busMallArray[k].click} votes (~${percentageViewed}%)`;
+//     }
+//   }
+// }
 
 // *Event Listeners* - image click and review results
 imageContainer.addEventListener('click', handleClick);
-btn.addEventListener('click', handleResults);
+// btn.addEventListener('click', handleResults);
+

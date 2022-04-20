@@ -38,13 +38,3 @@ img {
   max-height: 20em;
   max-width: 30em;
 }
-
-#btn {
-  display: inline-block;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: bold;
-  padding: 20px;
-  margin: 45px 0px 5px 20px;
-  border: 4px solid gray;
-}
