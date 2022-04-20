@@ -44,6 +44,7 @@ new BusMall('cthulhu');
 new BusMall('dog-duck');
 new BusMall('dragon');
 new BusMall('pen');
+new BusMall('pet-sweep');
 new BusMall('scissors');
 new BusMall('shark');
 new BusMall('sweep', 'png');
