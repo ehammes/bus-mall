@@ -1,7 +1,6 @@
 * {
   font-family: Arial, Helvetica, sans-serif;
   background-color: rgb(208, 202, 202);
-  text-align: center;
 }
 
 h1 {
@@ -14,6 +13,14 @@ h2 {
   margin: 50px 0px 15px 0px;
  }
 
+ header {
+  margin-left: 20px;
+ }
+
+ #images {
+  margin-left: 20px;
+ }
+
 img {
   border: 4px solid gray;
   max-height: 20em;
@@ -23,12 +30,10 @@ img {
 #resultsArea {
   margin: 0px 20px 20px 20px;
   max-width: 1500px;
-  text-align: center;
 }
 
 #myChart {
   display: none;
   background-color: whitesmoke;
   border: 2px solid gray;
-  text-align: center;
 }
