@@ -18,16 +18,13 @@ let imageC = document.getElementById('img-c');
 // Canvas Chart.js Code
 const ctx = document.getElementById('myChart');
 
-
 // Get data from local storage
 let retrievedProducts = localStorage.getItem('storedProducts');
-console.log('retrieved products here', retrievedProducts);
+//console.log('retrieved products here', retrievedProducts);
 
 // Parse data retrieved from local storage
 let parsedProducts = JSON.parse(retrievedProducts);
-console.log('parsed products here', parsedProducts);
-
-
+//console.log('parsed products here', parsedProducts);
 
 // *Constructor Function*
 
@@ -41,7 +38,7 @@ function BusMall(productName, fileExtension = 'jpg') {
 }
 
 // Bus Mall products
-if (retrievedProducts){
+if (retrievedProducts) {
   busMallArray = parsedProducts;
 } else {
   new BusMall('bag');
@@ -65,7 +62,7 @@ if (retrievedProducts){
   new BusMall('wine-glass');
 }
 
-console.log(busMallArray);
+//console.log(busMallArray);
 
 
 
@@ -85,6 +82,8 @@ function renderImages() {
       renderArray.push(randomNumber);
     }
   }
+
+  // Code below was previously used for randomly rendering images, updated with the above code
   // let productOneIndex = getRandomIndex();
   // let productTwoIndex = getRandomIndex();
   // let productThreeIndex = getRandomIndex();
@@ -140,7 +139,7 @@ function handleClick(event) {
     // ****Local Storage
     // Stringify data
     let stringifiedProducts = JSON.stringify(busMallArray);
-    console.log('stringified products here', stringifiedProducts);
+    //console.log('stringified products here', stringifiedProducts);
 
     // Store data
     localStorage.setItem('storedProducts', stringifiedProducts);
